@@ -21,12 +21,19 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        /*http
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .httpBasic();*/
+
+        http
+                .authorizeRequests()
+                .anyRequest()
+                .permitAll()
                 .and()
                 .httpBasic();
     }
