@@ -1,3 +1,4 @@
+/*
 package com.spmia.chapterone.chapterone.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http
+        http
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
-                .and()
-                .httpBasic();*/
-
-        http
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll()
                 .and()
                 .httpBasic();
     }
@@ -51,3 +45,4 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return new InMemoryUserDetailsManager(user);
     }
 }
+*/
