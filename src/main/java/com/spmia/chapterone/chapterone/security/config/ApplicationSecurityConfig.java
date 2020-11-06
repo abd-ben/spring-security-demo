@@ -32,6 +32,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/user/**").hasAuthority(READ.getPermission())
+                // order of matchers matter
                 .anyRequest()
                 .authenticated()
                 .and()
