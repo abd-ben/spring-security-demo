@@ -1,8 +1,11 @@
 package com.spmia.chapterone.chapterone.security.enums;
 
 import com.google.common.collect.Sets;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.spmia.chapterone.chapterone.security.enums.UserPermission.CREATE;
 import static com.spmia.chapterone.chapterone.security.enums.UserPermission.DELETE;
@@ -21,5 +24,14 @@ public enum UserRole {
 
     public Set<UserPermission> getPremissions() {
         return premissions;
+    }
+
+    public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
+        Set<SimpleGrantedAuthority> authorities = getPremissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toSet());
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        return authorities;
     }
 }
