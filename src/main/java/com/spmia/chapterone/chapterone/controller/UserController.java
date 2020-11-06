@@ -1,5 +1,6 @@
 package com.spmia.chapterone.chapterone.controller;
 
+import com.spmia.chapterone.chapterone.dto.UserDto;
 import com.spmia.chapterone.chapterone.entity.User;
 import com.spmia.chapterone.chapterone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,25 +27,25 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> lookup() {
+    public List<UserDto> lookup() {
         return userService.lookup();
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<User> add(@RequestBody User user) {
+    public List<UserDto> add(@RequestBody UserDto user) {
         userService.add(user);
         return lookup();
     }
 
     @DeleteMapping("{id}")
-    public List<User> delete(@PathVariable("id") Integer id) {
+    public List<UserDto> delete(@PathVariable("id") Integer id) {
         userService.delete(id);
         return lookup();
     }
 
     @PutMapping("{id}")
-    public List<User> update(@RequestBody User user) {
+    public List<UserDto> update(@RequestBody UserDto user) {
         userService.update(user);
         return lookup();
     }
