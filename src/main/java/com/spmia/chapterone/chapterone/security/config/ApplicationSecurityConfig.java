@@ -28,6 +28,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/user/**").hasRole(USER.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -49,7 +50,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
         UserDetails user = User.builder()
                 .username("user")
-                .password("user")
+                .password(passwordEncoder.encode("user"))
                 .roles(USER.name())
                 .build();
 
