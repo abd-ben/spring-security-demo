@@ -27,24 +27,27 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<UserDto> lookup() {
         return userService.lookup();
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('create')")
     public List<UserDto> add(@RequestBody UserDto user) {
         userService.add(user);
         return lookup();
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('delete')")
     public List<UserDto> delete(@PathVariable("id") Integer id) {
         userService.delete(id);
         return lookup();
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('update')")
     public List<UserDto> update(@RequestBody UserDto user) {
         userService.update(user);
         return lookup();
