@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.spmia.chapterone.chapterone.security.enums.UserRole.ADMIN;
 import static com.spmia.chapterone.chapterone.security.enums.UserRole.USER;
 
@@ -40,7 +42,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .defaultSuccessUrl("/user", true)
                 .and()
-                .rememberMe();
+                .rememberMe()
+                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
+                    .key("soosecured;)");
     }
 
     @Override
