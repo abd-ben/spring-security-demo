@@ -1,7 +1,6 @@
 package com.spmia.chapterone.chapterone.controller;
 
 import com.spmia.chapterone.chapterone.dto.UserDto;
-import com.spmia.chapterone.chapterone.entity.User;
 import com.spmia.chapterone.chapterone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,34 +19,31 @@ import java.util.List;
 @RequestMapping(value = "user")
 public class UserController {
 
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<UserDto> lookup() {
         return userService.lookup();
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('create')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<UserDto> add(@RequestBody UserDto user) {
         userService.add(user);
         return lookup();
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('delete')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<UserDto> delete(@PathVariable("id") Integer id) {
         userService.delete(id);
         return lookup();
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('update')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<UserDto> update(@RequestBody UserDto user) {
         userService.update(user);
         return lookup();
