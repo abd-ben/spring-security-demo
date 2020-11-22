@@ -1,6 +1,8 @@
 package com.spmia.chapterone.chapterone.security.config;
 
+import com.spmia.chapterone.chapterone.jwt.JwtConfig;
 import com.spmia.chapterone.chapterone.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.spmia.chapterone.chapterone.jwt.JwtVerifier;
 import com.spmia.chapterone.chapterone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.crypto.SecretKey;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -23,6 +27,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SecretKey secretKey;
+    @Autowired
+    private JwtConfig jwtConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,7 +39,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
+                .addFilterAfter(new JwtVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated();
