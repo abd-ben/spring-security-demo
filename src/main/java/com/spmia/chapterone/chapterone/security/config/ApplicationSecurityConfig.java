@@ -1,5 +1,6 @@
 package com.spmia.chapterone.chapterone.security.config;
 
+import com.spmia.chapterone.chapterone.handler.CustomAuthenticationFailureHandler;
 import com.spmia.chapterone.chapterone.jwt.JwtConfig;
 import com.spmia.chapterone.chapterone.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import com.spmia.chapterone.chapterone.jwt.JwtVerifier;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import javax.crypto.SecretKey;
 
@@ -58,4 +60,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userService);
         return provider;
     }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
 }
